@@ -1,0 +1,28 @@
+<h1>Currency Converter</h1>
+<h2>Enter values</h2>
+<form action="/" method="POST">
+	<label>
+		Amount:
+		<input name="amount" type="number" step=0.01 min=0 value=0>
+	</label>
+	<label>
+		Currency:
+		<select name="baseCurrency">
+			{{#each currencies}}
+				<option>{{this}}</option>
+			{{/each}}
+		</select>
+	</label>
+	<label>
+		Target Currency:
+		<select name="targetCurrency">
+			{{#each currencies}}
+				<option>{{this}}</option>
+			{{/each}}
+		</select>
+	</label>
+	<input type="submit" value="Convert">
+</form>
+{{#if error}}
+<p>{{error}}</p>
+{{/if}}
