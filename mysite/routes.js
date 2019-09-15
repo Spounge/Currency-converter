@@ -2,6 +2,8 @@
 "use strict";
 
 module.exports = function (app) {
+    /* Register routes */
+
     const currencyConverter = require("./controllers");
 
     app.route("/").get(currencyConverter.home);

@@ -13,8 +13,8 @@ exports.home = function (req, res) {
     var obj = {};
     var currencies = {};
 
-    request(url, function (_err, _reqres, body) {
-        if (!res) {
+    request(url, function (_err, reqres, body) {
+        if (!reqres) {
             req.query.error = "Can't reach api.";
         } else {
             obj = JSON.parse(body);
@@ -45,12 +45,12 @@ exports.result = function (req, res) {
     urlSymbols = "symbols=" + converted.currency;
     url = apiUrl + urlBase + "&" + urlSymbols;
 
-    request(url, function (_err, _reqres, body) {
+    request(url, function (_err, reqres, body) {
         var obj = {};
         var rate = 0;
         var amount = 0;
 
-        if (!res) {
+        if (!reqres) {
             return res.redirect("/?error=Can't reach api");
         }
         obj = JSON.parse(body);
@@ -81,19 +81,19 @@ exports.service = function (req, res) {
         var urlSymbols = "symbols=" + input.quote_currency;
         var url = apiUrl + urlBase + "&" + urlSymbols;
 
-        request(url, function (_err, _reqres, body) {
+        request(url, function (_err, reqres, body) {
             var obj = {};
             var rate = 0;
 
-            if (!res) {
-                output.error = "Invalid request";
-                res.statusCode = 400;
+            if (!reqres) {
+                output.error = "Can't reach api";
+                res.statusCode = 503;
                 return res.json(output);
             }
             obj = JSON.parse(body);
             if (obj.error && !input.base_currency === input.quote_currency) {
                 output.error = obj.error;
-                res.statusCode = 503;
+                res.statusCode = 400;
             } else {
                 rate = (input.base_currency === input.quote_currency) ?
                     1 : parseFloat(obj.rates[input.quote_currency]);
